@@ -9,12 +9,15 @@ const handler = NextAuth({
     }),
   ],
   callbacks: {
-async signIn() {
-      // Optional: restrict to @abodie.co
-      // return user.email?.endsWith("@abodie.co") ?? false;
-      return true;
-    },
+  async signIn({ user }) {
+    const email = user?.email || '';
+    return email.endsWith('@abodie.co');
   },
+  async session({ session }) {
+    return session;
+  },
+}
+
 });
 
 export { handler as GET, handler as POST };
