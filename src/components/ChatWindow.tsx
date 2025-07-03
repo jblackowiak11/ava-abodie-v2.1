@@ -29,7 +29,7 @@ export default function ChatWindow() {
       const data = await res.json();
       const avaReply: Message = { sender: 'Ava', text: data.response };
       setMessages((prev) => [...prev, avaReply]);
-    } catch (error) {
+    } catch {
       setMessages((prev) => [
         ...prev,
         { sender: 'Ava', text: 'Something went wrong. Ava is offline.' },
