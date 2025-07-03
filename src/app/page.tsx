@@ -1,6 +1,8 @@
+// ✅ FILE: src/app/page.tsx
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { redirect } from "next/navigation";
+import SignInButton from "@/components/SignInButton";
 
 export default async function Home() {
   const session = await getServerSession(authOptions);
@@ -10,15 +12,10 @@ export default async function Home() {
   }
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center bg-[#F5F0E6]">
-      <h1 className="text-6xl font-extrabold tracking-wide">Ava</h1>
-      <p className="mt-2 text-lg">one brain – built by Abodie</p>
-      <a
-        href="/api/auth/signin"
-        className="mt-6 rounded bg-black px-6 py-3 text-white hover:bg-gray-800"
-      >
-        Sign in with Google
-      </a>
+    <main className="flex min-h-screen flex-col items-center justify-center bg-[#F5F0E6] px-4">
+      <h1 className="text-7xl font-extrabold tracking-tight text-center mb-2">Ava</h1>
+      <p className="text-lg mb-6 text-center">one brain – built by Abodie</p>
+      <SignInButton />
     </main>
   );
 }
