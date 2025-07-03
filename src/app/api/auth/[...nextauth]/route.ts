@@ -1,7 +1,8 @@
-import NextAuth from "next-auth";
+import { NextAuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
+import NextAuth from "next-auth";
 
-const handler = NextAuth({
+export const authOptions: NextAuthOptions = {
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID!,
@@ -9,20 +10,22 @@ const handler = NextAuth({
     }),
   ],
   callbacks: {
-  async signIn({ user, account, profile }) {
-    const email = user?.email || '';
-    if (!email.endsWith('@abodie.co')) {
-      throw new Error('Unauthorized');
-    }
-    return true;
+    async signIn({ user }) {
+      const email = user.email || '';
+      const isAllowed = email.endsWith("@abodie.co");
+
+      if (!isAllowed) {
+        throw new Error("Access denied: you're not Abodie enough.");
+      }
+
+      return true;
+    },
+    async session({ session }) {
+      return session;
+    },
   },
-  async session({ session }) {
-    return session;
-  },
-},
-pages: {
-  error: '/denied', // Custom error page
-},
-});
+};
+
+const handler = NextAuth(authOptions);
 
 export { handler as GET, handler as POST };
