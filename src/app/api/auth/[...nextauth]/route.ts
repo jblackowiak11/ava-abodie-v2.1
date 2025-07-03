@@ -9,15 +9,20 @@ const handler = NextAuth({
     }),
   ],
   callbacks: {
-  async signIn({ user }) {
+  async signIn({ user, account, profile }) {
     const email = user?.email || '';
-    return email.endsWith('@abodie.co');
+    if (!email.endsWith('@abodie.co')) {
+      throw new Error('Unauthorized');
+    }
+    return true;
   },
   async session({ session }) {
     return session;
   },
-}
-
+},
+pages: {
+  error: '/denied', // Custom error page
+},
 });
 
 export { handler as GET, handler as POST };
