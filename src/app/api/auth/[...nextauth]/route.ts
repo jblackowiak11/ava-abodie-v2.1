@@ -9,7 +9,7 @@ const handler = NextAuth({
     }),
   ],
   callbacks: {
-    async signIn({ user }) {
+async signIn() {
       // Optional: restrict to @abodie.co
       // return user.email?.endsWith("@abodie.co") ?? false;
       return true;
